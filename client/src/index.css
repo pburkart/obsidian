@@ -71,6 +71,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+.add-row-button {
+	padding: 1em;
+	padding-top:0.8em;
+	width: 7.5em;
+}
+
 button:hover {
   border-color: #646cff;
 }

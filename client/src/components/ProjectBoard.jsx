@@ -315,9 +315,9 @@ function ProjectBoard() {
 			<h2 className="text-3xl font-bold">{project?.name || 'Project'}</h2>
 			<button
 			  onClick={handleCreateRow}
-			  className="bg-[var(--obsidian-700)] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--obsidian-600)] transition"
+			  className="bg-[var(--obsidian-700)] add-row-button text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--obsidian-600)] transition"
 			>
-			  +
+			  + Add Row
 			</button>
 		  </div>
 		</div>
