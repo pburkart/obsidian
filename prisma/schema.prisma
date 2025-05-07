@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// User model for authentication and project membership
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String?
+  projects  Project[] @relation("ProjectMembers") // Projects the user is a member of
+  ownedProjects Project[] @relation("ProjectOwner") // Projects the user owns
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+}
+
+// Project model for managing projects
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  ownerId     Int
+  owner       User      @relation("ProjectOwner", fields: [ownerId], references: [id])
+  members     User[]    @relation("ProjectMembers")
+  rows        Row[]
+  createdAt   DateTime  @default(now())
+}
+
+// Row model for organizing work items (e.g., To Do, In Progress)
+model Row {
+  id          Int       @id @default(autoincrement())
+  name        String
+  projectId   Int
+  project     Project   @relation(fields: [projectId], references: [id])
+  workItems   WorkItem[]
+}
+
+// WorkItem model for tasks within rows
+model WorkItem {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  rowId       Int
+  row         Row       @relation(fields: [rowId], references: [id])
+  files       File[]
+  comments    Comment[]
+  createdAt   DateTime  @default(now())
+}
+
+// File model for attachments on work items
+model File {
+  id          Int       @id @default(autoincrement())
+  filename    String
+  path        String
+  workItemId  Int
+  workItem    WorkItem @relation(fields: [workItemId], references: [id])
+  uploadedAt  DateTime  @default(now())
+}
+
+// Comment model for discussions on work items
+model Comment {
+  id          Int       @id @default(autoincrement())
+  content     String
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  workItemId  Int
+  workItem    WorkItem @relation(fields: [workItemId], references: [id])
+  createdAt   DateTime  @default(now())
+}
