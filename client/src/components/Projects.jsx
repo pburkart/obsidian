@@ -165,7 +165,7 @@ function Projects() {
           </div>
         </form>
       )}
-      <div className="grid gap-4 h-[calc(100vh-120px)] overflow-y-hidden">
+      <div className="grid gap-4 h-[calc(20vh-120px)] overflow-y-hidden">
 		  {projects.map((project) => (
 			<div
 			  key={project.id}
